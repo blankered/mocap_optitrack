@@ -25,7 +25,7 @@ const geometry_msgs::PoseStamped RigidBody::get_ros_pose(bool newCoordinates)
     // Motive 1.7+ coordinate system
     ros_pose.pose.position.x = -pose.position.x;
     ros_pose.pose.position.y = pose.position.z;
-    ros_pose.pose.position.z = pose.position.y;
+    ros_pose.pose.position.z = -pose.position.y;
 
     ros_pose.pose.orientation.x = -pose.orientation.x;
     ros_pose.pose.orientation.y = pose.orientation.z;
@@ -36,12 +36,12 @@ const geometry_msgs::PoseStamped RigidBody::get_ros_pose(bool newCoordinates)
   {
     // y & z axes are swapped in the Optitrack coordinate system
     ros_pose.pose.position.x = pose.position.x;
-    ros_pose.pose.position.y = -pose.position.z;
-    ros_pose.pose.position.z = pose.position.y;
+    ros_pose.pose.position.y = pose.position.z;
+    ros_pose.pose.position.z = -pose.position.y;
 
     ros_pose.pose.orientation.x = pose.orientation.x;
-    ros_pose.pose.orientation.y = -pose.orientation.z;
-    ros_pose.pose.orientation.z = pose.orientation.y;
+    ros_pose.pose.orientation.y = pose.orientation.z;
+    ros_pose.pose.orientation.z = -pose.orientation.y;
     ros_pose.pose.orientation.w = pose.orientation.w;
   }
   return ros_pose;
