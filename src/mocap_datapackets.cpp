@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <ros/console.h>
+#include <math.h>
 using namespace std;
 
 RigidBody::RigidBody()
@@ -23,27 +24,56 @@ const geometry_msgs::PoseStamped RigidBody::get_ros_pose(bool newCoordinates)
   if (newCoordinates)
   {
     // Motive 1.7+ coordinate system
-    ros_pose.pose.position.x = -pose.position.x;
-    ros_pose.pose.position.y = pose.position.z;
-    ros_pose.pose.position.z = -pose.position.y;
+    ros_pose.pose.position.x = pose.position.x;
+    ros_pose.pose.position.y = -pose.position.z;
+    ros_pose.pose.position.z = pose.position.y;
 
-    ros_pose.pose.orientation.x = -pose.orientation.x;
-    ros_pose.pose.orientation.y = pose.orientation.z;
+    ros_pose.pose.orientation.x = pose.orientation.x;
+    ros_pose.pose.orientation.y = -pose.orientation.z;
     ros_pose.pose.orientation.z = pose.orientation.y;
     ros_pose.pose.orientation.w = pose.orientation.w;
   }
   else
   {
     // y & z axes are swapped in the Optitrack coordinate system
-    ros_pose.pose.position.x = pose.position.x;
-    ros_pose.pose.position.y = pose.position.z;
-    ros_pose.pose.position.z = -pose.position.y;
+    ros_pose.pose.position.y = pose.position.x;
+    ros_pose.pose.position.x = pose.position.z;
+    ros_pose.pose.position.z = pose.position.y;
 
-    ros_pose.pose.orientation.x = pose.orientation.x;
-    ros_pose.pose.orientation.y = pose.orientation.z;
-    ros_pose.pose.orientation.z = -pose.orientation.y;
+/*    float heading = PI;
+    float pitch = PI;
+    float roll = 90;
+
+    float c1 = cos(heading/2);
+    float c2 = cos(pitch/2);
+    float c3 = cos(roll/2);
+    float s1 = sin(heading/2);
+    float s2 = sin(pitch/2);
+    float s3 = sin(roll/2);
+
+    float qw1 = c1*c2*c3 - s1*s2*s3;
+    float qx1 = s1*s2*c3 + c1*c2*s3;
+    float qy1 = s1*c2*c3 + c1*s2*s3;
+    float qz1 = c1*s2*c3 - s1*c2*s3;
+
+    float qw2 = pose.orientation.w;
+    float qx2 = pose.orientation.x;
+    float qy2 = -pose.orientation.z;
+    float qz2 = pose.orientation.y;
+
+    ros_pose.pose.orientation.w = qw1*qw2 - qx1*qx2 - qy1*qy2 - qz1*qz2;
+    ros_pose.pose.orientation.x = qw1*qx2 + qx1*qw2 + qy1*qz2 - qz1*qy2;
+    ros_pose.pose.orientation.y = qw1*qy2 - qx1*qz2 + qy1*qw2 + qz2*qx2;
+    ros_pose.pose.orientation.z = qw1*qz2 - qx1*qy2 - qy1*qx2 + qz1*qw2; */
+
+    ros_pose.pose.orientation.y = pose.orientation.x;
+    ros_pose.pose.orientation.x = pose.orientation.z;
+    ros_pose.pose.orientation.z = pose.orientation.y;
     ros_pose.pose.orientation.w = pose.orientation.w;
-  }
+
+
+
+}
   return ros_pose;
 }
 

@@ -44,6 +44,7 @@
 #include <iostream>
 #include <string>
 #include <geometry_msgs/PoseStamped.h>
+#define PI	3.14159265358979323846  /* pi */
 
 using namespace std;
 
